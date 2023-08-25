@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizz application</title>
+    <style>
+        h2{
+            padding-bottom: 8px;
+        }
+        body{
+            background-color: #000000e8;
+            font-family: 'Poppins', sans-serif;
+        }
+        .container{
+
+            width: 500px;
+            height: 300px;
+            background-color: white;
+            border-radius: 22px;
+            padding-left: 20px;
+            margin-left: 430px;
+            margin-top: 250px;
+            box-shadow: 0 0 20px 3px #f90202;
+            
+            
+        }
+        
+        .opt{
+            margin-top: 10px;
+        }
+        
+        h2{
+            padding-top: 30px;
+            margin-bottom: 3px;
+        }
+        button{
+            margin-top: 20px;
+            margin-left: 200px;
+            margin-right: 10px;
+            width: 90px;
+            height: 40px;
+            border-radius: 20px;
+            color: white;
+            background-color: rgb(49, 111, 224);
+            box-shadow: inset;
+            box-shadow: 0 0 6px 1px black;
+        }
+        button:hover{
+            background-color: #de1616;
+            color:white;
+        }
+        
+        .css-score{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+       .css-result{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #score{
+            font-size: 50px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="container" class="container">
+         <h2 class="title"><center>Quizz Application</center></h2>
+         <div id="question" class="question"></div>
+            <div class="opt">
+         <input type="radio" name="option" value="1"  >
+         <label class="options" ><span id="option1"></span></label>
+        </div>
+         <div class="opt">
+         <input type="radio" name="option"  value="2">
+         <label class="options" ><span id="option2"></span></label>
+        </div>
+        <div class="opt">
+         <input type="radio" name="option"  value="3" >
+         <label class="options" ><span id="option3"></span></label>
+        </div>
+        <div class="opt">
+         <input type="radio" name="option"  value="4">
+         <label class="options" ><span id="option4"></span></label>
+       
+         </div>
+         <button id="nextQuestion" type="button" class="next-btn" onclick="loadnextQuestion()">Next</button>
+        </div>
+         <div id="result" class="container css-result" style="display: none"> </div>
+         
+        
+    </div>
+    <script>
+        var questions=[{
+            "question":"Javascript is an _______ language?",
+            "option1": "Object-Oriented",
+            "option2": "Object-Based",
+            "option3": "Procedural",
+            "option4": "None of the above",
+            "answer":"1"
+        },{
+            "question":"Which of the following keywords is used to define a variable in Javascript?",
+            "option1": "var",
+            "option2": "let",
+            "option3": "both A and B",
+            "option4": "None of the above",
+            "answer":"3"
+        },{
+            "question":" Which of the following methods is used to access HTML elements using Javascript?",
+            "option1": "getElementbyid()",
+            "option2": "getElementbyClassName()",
+            "option3": "both A and B",
+            "option4": "None of the above",
+            "answer":"3"
+        },{
+            "question":"Upon encountering empty statements, what does the Javascript Interpreter do?",
+            "option1": "Throws an error",
+            "option2": "Ignore the statements",
+            "option3": "Give a warning",
+            "option4": "None of the above",
+            "answer":"2"
+        },{
+            "question":"Which of the following methods can be used to display data in some form using Javascript?",
+            "option1": "document.write()",
+            "option2": "console.log()",
+            "option3": "window.alert()",
+            "option4": "All of the above",
+            "answer":"4"
+        }]
+        var container = document.getElementById('container');
+        var question = document.getElementById('question');
+        var option1 = document.getElementById('option1');
+        var option2 = document.getElementById('option2');
+        var option3 = document.getElementById('option3');
+        var option4 = document.getElementById('option4');
+        var result = document.getElementById('result');
+
+        var currQuestion=0;
+        var score = 0;
+        var totalQuestions=questions.length;
+        
+        function loadQuestion(index){
+            var data = questions[index];
+            question.textContent=(index+1)+'. '+data.question;
+            option1.textContent= data.option1;
+            option2.textContent = data.option2;
+            option3.textContent = data.option3;
+            option4.textContent = data.option4;
+            var selectedOption = document.querySelector('#container input[type=radio]:checked');
+            if(selectedOption)selectedOption.checked=false;
+            
+        }
+
+        loadQuestion(currQuestion);
+        function  loadnextQuestion(){
+            currQuestion++; 
+            var selectedOption = document.querySelector('#container input[type=radio]:checked');
+            if(!selectedOption){
+            alert("Please Enter an option !!!");
+            currQuestion--;
+             return;
+            }
+            
+            if(questions[currQuestion-1].answer == selectedOption.value){
+            score+=10;
+            }
+            selectedOption.checked=false;
+           
+            if(currQuestion==totalQuestions-1){
+                document.getElementById('nextQuestion').textContent='Finish';
+            }
+          
+            if(currQuestion == totalQuestions){
+                container.style.display='none';
+                result.style.display='';
+                result.style.textAlign='center';
+                result.style.fontFamily='Poppins';
+                result.innerHTML=`<div id="score">Your Score: ${score} </div>`;
+                
+            }
+            console.log(score);
+            loadQuestion(currQuestion);     
+        };
+    
+       
+    
+     
+
+    </script>
+
+</body>
+</html>
